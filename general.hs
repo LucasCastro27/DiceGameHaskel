@@ -7,6 +7,8 @@ module General(
 )where
 import System.Random
 
+-----------------------Funçãoes simples de uso generico utilizado para implementação dos outros modulos --------------------------------
+
 adicionarElemento :: Int -> [Int] -> [Int]
 adicionarElemento elemento lista = lista ++ [elemento]
 
@@ -14,18 +16,19 @@ sortearNumero :: Int -> Int -> IO Int
 sortearNumero min max = randomRIO (min, max)
 
 removerElemento :: Int -> [Int] -> [Int]
-removerElemento _ [] = []  -- Caso base: lista vazia
+removerElemento _ [] = []  
 removerElemento x (y:ys)
-    | x == y    = ys       -- Se encontrar o elemento, retorna a lista sem ele
-    | otherwise = y : removerElemento x ys  -- Caso contrário, continua procurando
+    | x == y    = ys     
+    | otherwise = y : removerElemento x ys  
 
 
 valorNoIndice :: [Int] -> Int -> Maybe Int
 valorNoIndice lista indice
-    | indice < 0 || indice >= length lista = Nothing   -- índice fora dos limites, retorna Nothing
+    | indice < 0 || indice >= length lista = Nothing   
     | otherwise = Just (lista !! indice)
 
 
 tamanhoLista :: [a] -> Int
 tamanhoLista [] = 0             
 tamanhoLista (_:resto) = 1 + tamanhoLista resto
+---------------------------------------------------------------------------------------------------------------------------------------
