@@ -3,7 +3,8 @@ module General(
     sortearNumero,
     removerElemento,
     valorNoIndice,
-    tamanhoLista    
+    tamanhoLista,
+    maybeIntToInt    
 )where
 import System.Random
 
@@ -31,4 +32,12 @@ valorNoIndice lista indice
 tamanhoLista :: [a] -> Int
 tamanhoLista [] = 0             
 tamanhoLista (_:resto) = 1 + tamanhoLista resto
+
+maybeIntToInt :: Maybe Int -> Int
+maybeIntToInt maybeValue = case maybeValue of
+    Just value -> value
+    Nothing    -> 0 
+
+
+
 ---------------------------------------------------------------------------------------------------------------------------------------

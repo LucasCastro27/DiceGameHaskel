@@ -4,9 +4,14 @@ import General
 import Player
 import Jogo
 import IAFacil
+import IADificil
+
 
 import System.Random
 import Control.Monad (replicateM)
+
+
+
 
 
 jogo ::Int -> [Int] -> IO()
@@ -25,7 +30,7 @@ jogo 0 tabuleiro = do                               --loop principal de execuç�
     else do 
         print newboard                               
         ----faze da IA Facil----------------
-        newboardIA <- iaFacilJogada newboard        --realização da jogada da IA
+        newboardIA <- iaDificilJogada newboard        --realização da jogada da IA
         let derrota = tamanhoLista newboardIA       --obtem quantos dados ainda restão em jogo
         if derrota == 0                             --caso 0 dados restantes fim do loop 
             then do                         
