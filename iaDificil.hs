@@ -1,9 +1,20 @@
 module IADificil(
     iaDificilJogada    
 )where
+import Data.List (delete)
+
+import Data.List (group)
+import Data.List (sort)
 import System.Random
 import IAFacil
 import General
+
+headA :: [Int] -> Int
+headA (x:_) = x
+headA []    = -1
+
+sortList :: (Ord a) => [a] -> [a]
+sortList = sort
 
 ordenarDados :: Int -> Int -> (Int, Int)
 ordenarDados x y
@@ -96,9 +107,89 @@ iaDificilDoisDado tabuleiro = do
             let auxIaTabuleiro = removerElemento dado2 tabuleiro 
             let iaTabuleiro = adicionarElemento dado1 auxIaTabuleiro
             putStrLn $ "Movimento da IA D: " ++ show dado2 ++ " -> " ++ show dado1
-            return iaTabuleiro 
+            return iaTabuleiro
+            
 
+remove5e2 :: [Int] -> [Int]
+remove5e2 = filter (\x -> x /= 2 && x /= 5)
 
+-- Função para remover pares que somam 7
+condicaoMaisDados :: [Int] -> [Int]
+condicaoMaisDados [] = []
+condicaoMaisDados (x:xs) = 
+    let remaining = condicaoMaisDados xs
+    in case acharPar x remaining of
+        Just y  -> delete y (delete x remaining) -- Remove ambos os elementos do par
+        Nothing -> x : remaining
+
+-- Função auxiliar para encontrar um par que soma 7
+acharPar :: Int -> [Int] -> Maybe Int
+acharPar x [] = Nothing
+acharPar x (y:ys)
+    | x + y == 7 = Just y
+    | otherwise  = acharPar x ys
+        
+condicaoDadosIguais :: (Ord a) => [a] -> [a]
+condicaoDadosIguais = concatMap removePairs . group . sort
+  where
+    removePairs xs
+      | odd (length xs) = [Prelude.head xs]
+      | otherwise       = []
+
+firstTwo :: [Int] -> (Int, Int)
+firstTwo [] = (-1, -1)
+firstTwo [x] = (x, -1)
+firstTwo (x:y:_) = (x, y)
+
+iaDificilmaisDados:: [Int] -> IO [Int]
+iaDificilmaisDados tabuleiro = do
+    let tabuleiroSem5e2 = remove5e2 tabuleiro
+    let quantidadeDadosValidos = tamanhoLista tabuleiroSem5e2
+    let tabuleiroOrdenado = sortList tabuleiroSem5e2
+    let tabuleiroaux1 = condicaoDadosIguais tabuleiroOrdenado
+    let tabuleiroaux2 = condicaoMaisDados tabuleiroaux1
+
+    let quantidadeFinal = tamanhoLista tabuleiroaux2
+    print tabuleiroaux2
+    if quantidadeFinal == 0 then do 
+        resultado <- iaFacilJogada tabuleiro
+        return resultado
+
+    else if(quantidadeFinal == 1 )then do 
+        resultado <- iaDificilUmDado tabuleiroaux2
+        let dadoEscolhido = headA tabuleiroaux2
+        let dadoNovo = headA resultado
+        if dadoNovo == -1 then do 
+            let iaTabuleiro = removerElemento 1 tabuleiro 
+            return iaTabuleiro
+
+        else do     
+            let auxIaTabuleiro = removerElemento dadoEscolhido tabuleiro 
+            let iaTabuleiro = adicionarElemento dadoNovo auxIaTabuleiro
+            return iaTabuleiro
+
+       
+    else if(quantidadeFinal == 2) then do 
+        resultado <- iaDificilDoisDado tabuleiroaux2
+        let (removido1, removido2) = firstTwo tabuleiroaux2
+        let (add1, add2) = firstTwo resultado
+        let iaTabuleiro1 = removerElemento removido1 tabuleiro
+        let iaTabuleiro2 = adicionarElemento add1 iaTabuleiro1
+        
+        if removido2 /= -1 then do 
+            let iaTabuleiro3 = removerElemento removido2 iaTabuleiro2
+            let iaTabuleiro4 = adicionarElemento add2 iaTabuleiro3
+            print iaTabuleiro4
+            return iaTabuleiro4 
+        else do
+            print iaTabuleiro2
+            return iaTabuleiro2
+
+    else do
+        resultado <- iaFacilJogada tabuleiro
+        return resultado 
+
+    
 
 
 iaDificilJogada::[Int] -> IO [Int]
@@ -113,10 +204,11 @@ iaDificilJogada tabuleiro = do
             resultado <- iaDificilDoisDado tabuleiro
             return resultado
         3 -> do
-            resultado <- iaFacilJogada tabuleiro
+            
+            resultado <- iaDificilmaisDados tabuleiro
             return resultado
         _ | quantidadeDados > 3 -> do
-            resultado <- iaFacilJogada tabuleiro
+            resultado <- iaDificilmaisDados tabuleiro
             return resultado
 
 

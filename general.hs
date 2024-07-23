@@ -4,11 +4,15 @@ module General(
     removerElemento,
     valorNoIndice,
     tamanhoLista,
-    maybeIntToInt    
+    maybeIntToInt,
+    resto    
 )where
 import System.Random
 
 -----------------------Funçãoes simples de uso generico utilizado para implementação dos outros modulos --------------------------------
+resto :: Int -> Int -> Int
+resto x y = x `mod` y
+
 
 adicionarElemento :: Int -> [Int] -> [Int]
 adicionarElemento elemento lista = lista ++ [elemento]
