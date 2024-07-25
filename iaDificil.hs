@@ -65,19 +65,19 @@ iaDificilUmDado tabuleiro = do
             return iaTabuleiro
         3-> do
             let iaTabuleiro = adicionarElemento 2 auxIaTabuleiro -- --adiciona o novo valor ao final 
-            putStrLn $ "Movimento da IA D: " ++ show dadoEscolhidoIA ++ " -> 2" 
+            putStrLn $ "Movimento da IA: " ++ show dadoEscolhidoIA ++ " -> 2" 
             return iaTabuleiro
         4-> do 
             let iaTabuleiro = adicionarElemento 2 auxIaTabuleiro -- --adiciona o novo valor ao final
-            putStrLn $ "Movimento da IA D: " ++ show dadoEscolhidoIA ++ " -> 2" 
+            putStrLn $ "Movimento da IA: " ++ show dadoEscolhidoIA ++ " -> 2" 
             return iaTabuleiro
         5-> do
             let iaTabuleiro = adicionarElemento 1 auxIaTabuleiro -- --adiciona o novo valor ao final 
-            putStrLn $ "Movimento da IA D: " ++ show dadoEscolhidoIA ++ " -> 1" 
+            putStrLn $ "Movimento da IA: " ++ show dadoEscolhidoIA ++ " -> 1" 
             return iaTabuleiro
         6-> do
             let iaTabuleiro = adicionarElemento 2 auxIaTabuleiro -- --adiciona o novo valor ao final 
-            putStrLn $ "Movimento da IA D: " ++ show dadoEscolhidoIA ++ " -> 2" 
+            putStrLn $ "Movimento da IA: " ++ show dadoEscolhidoIA ++ " -> 2" 
             return iaTabuleiro
 
 iaDificilDoisDado:: [Int] -> IO [Int]               ---solução para a melhor jogada com dois dados 
@@ -102,23 +102,23 @@ iaDificilDoisDado tabuleiro = do
         let auxIaTabuleiro = removerElemento modficado tabuleiro            --remove o valor modificado do tabuleiro 
         if modficado == dado1 then do                                       --adiciona o dado 1 no local do que foi removido 
             let iaTabuleiro = adicionarElemento novoDado1 auxIaTabuleiro    
-            putStrLn $ "Movimento da IA D: " ++ show dado1 ++ " -> " ++ show novoDado1
+            putStrLn $ "Movimento da IA: " ++ show dado1 ++ " -> " ++ show novoDado1
             return iaTabuleiro
         else do                                                             --adiciona o dado 2 no local do que foi removido
             let iaTabuleiro = adicionarElemento novoDado2 auxIaTabuleiro
-            putStrLn $ "Movimento da IA D: " ++ show dado2 ++ " -> " ++ show novoDado2
+            putStrLn $ "Movimento da IA: " ++ show dado2 ++ " -> " ++ show novoDado2
             return iaTabuleiro
 
     else do 
         if (dado1 > dado2) then do
             let auxIaTabuleiro = removerElemento dado1 tabuleiro 
             let iaTabuleiro = adicionarElemento dado2 auxIaTabuleiro
-            putStrLn $ "Movimento da IA D: " ++ show dado1 ++ " -> " ++ show dado2
+            putStrLn $ "Movimento da IA: " ++ show dado1 ++ " -> " ++ show dado2
             return iaTabuleiro
         else  do
             let auxIaTabuleiro = removerElemento dado2 tabuleiro 
             let iaTabuleiro = adicionarElemento dado1 auxIaTabuleiro
-            putStrLn $ "Movimento da IA D: " ++ show dado2 ++ " -> " ++ show dado1
+            putStrLn $ "Movimento da IA: " ++ show dado2 ++ " -> " ++ show dado1
             return iaTabuleiro
             
 
@@ -132,7 +132,6 @@ iaDificilmaisDados tabuleiro = do
     let tabuleiroaux2 = condicaoMaisDados tabuleiroaux1             --remove dados que podem formar duplas de valor 7
 
     let quantidadeFinal = tamanhoLista tabuleiroaux2                --valor da quantidade de dados depois da filtragem
-    print tabuleiroaux2
     if quantidadeFinal == 0 then do                                 -- se n sobrou nem um dado n há jogada ideial pra ser feita
         resultado <- iaFacilJogada tabuleiro
         return resultado
